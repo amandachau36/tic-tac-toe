@@ -1,0 +1,47 @@
+body {
+  background-color: rgb(57, 57, 57);
+  color: rgb(215, 214, 218);
+  font-family: 'Permanent Marker', cursive;
+  box-sizing: border-box;
+
+}
+
+.board {
+  display: grid;
+  background-color: rgb(215, 214, 218);
+  /* padding: 10px; */
+  grid-template-columns: repeat(3, 22vw);
+  grid-template-rows: repeat(3, 22vw);
+  width: 67vw;
+  grid-gap: 0.5vw;
+  margin: 0 auto;
+
+
+}
+
+.board > div {
+  background-color: rgb(57, 57, 57);
+  color: rgb(215, 214, 218);
+  text-align: center;
+  font-family: 'Permanent Marker', cursive;
+  font-size: 18vw;
+  font-weight: 600;
+}
+
+
+.winner {
+  /* background-color: pink; */
+  margin-top: 100px;
+  font-size: 5vw;
+}
+/* .columns {
+  width: 100%;
+  background-color: pink;
+}
+
+.twoColumns {
+  width: 50%;
+  background-color: purple;
+
+
+} */
