@@ -91,25 +91,39 @@ const tic = {
 // keep track of plays
 let countPlays = 0;
 
+let gameIsWon = false;
 
-$('.board > div').on('click', function( e ){
+
+
+$('.board > div').on('click', function(){
 // this allows you to click anywhere on the board
-// and to return className of target depending where you click
-  let boxNum = e.target.className; //$(e.target).attr('index')
+// and to return the index depending where you click . . . how does this work???
+
+  if (gameIsWon) {
+    return
+  }
+
+  // let boxNum = $(e.target).attr('index');
+  // this refers to the box you clicked on in $('.board > div')
+  let boxNum = $(this).attr('index');
+
+  // console.log(boxNum);
+  // console.log($(this).html());
+
+
 
 // if spot is empty then run code below
-
-  if ($(`.${boxNum}`).html().length === 0 ) {
+  if ($(this).html().length === 0 ) {
 
     // find out if its X or O
     const play = tic.nextPlay();
 
     // insert X or O into box clicked
-    $(`.${boxNum}`).html(play);
+    $(this).html(play);
 
     // updated lastPlayed value
   // remove all letters and turn string into numbers and save in array
-    tic.boxNumber[parseInt(boxNum.replace(/\D/g,''))] = play;
+    tic.boxNumber[parseInt(boxNum)] = play; //
 
 
     tic.lastPlayed = play;
@@ -124,13 +138,17 @@ $('.board > div').on('click', function( e ){
 
     if (tic.win()){
       $('.outcome').html(`Player ${play} you win!`);
-      $('.board > div').off('click');
+      gameIsWon = true;
 
     }
 
   }
 
 }); //end of event handler for clicks
+
+// make height the same as width 
+// var cw = $('.child').width();
+// $('.child').css({'height':cw+'px'});
 
 
 // $(`<div class="box${work}"></div>`).appendTo('body');
