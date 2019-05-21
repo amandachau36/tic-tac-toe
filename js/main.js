@@ -7,7 +7,7 @@ console.log('JS is workingg!')
 
 const tic = {
   boxNumber: {
-    box1: '1',
+    box1: '1', //make this  into an array
     box2: '2',
     box3: '3',
     box4: '4',
@@ -18,7 +18,9 @@ const tic = {
     box9: '9',
 
   },
-  lastPlayed: 'O',
+  lastPlayed: 'O', // let players pick
+
+ // if last value was X than next value will be O
   nextPlay: function(){
     if (this.lastPlayed === 'X'){
       return 'O';
@@ -27,35 +29,37 @@ const tic = {
     }
   },
   win: function(){
-    const x = this.boxNumber
+    const x = this.boxNumber  //turn this into an array item
 
     if (x.box1 === x.box2 && x.box2 === x.box3) {
-      return 'you win!';
+      return true;
       }
 
     if (x.box1 === x.box4 && x.box4 === x.box7) {
-      return 'you win!';
+      return true;
     }
 
     if (x.box1 === x.box5 && x.box5 === x.box9) {
-      return 'you win!';
+      return true;
     }
 
     if (x.box3 === x.box6 && x.box6 === x.box9) {
-      return 'you win!';
+      return true;
     }
 
     if (x.box7 === x.box8 && x.box8 === x.box9) {
-      return 'you win!';
+      return true;
     }
 
     if (x.box4 === x.box5 && x.box5 === x.box6) {
-      return 'you win!';
+      return true;
     }
 
     if (x.box2 === x.box5 && x.box5 === x.box8) {
-      return 'you win!';
+      return true;
     }
+
+    // need to stop game someone
 
   },
 
@@ -63,9 +67,53 @@ const tic = {
 
 };// end to tic object
 
+let x = 3 // number of columns/rows
+
+let cols = [];
+
+const arrayNum = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+
+for(let j = 0; j < x; j++){
+  cols[j] = [];
+  for ( let i = j; i < arrayNum.length; i+=x ) {
+    cols[j].push(arrayNum[i]);
+  }
+}; // end of column arrays
+
+let rows = [];
+for(let j = 0; j < arrayNum.length; j+=x){
+	rows[j] = [];
+for ( let i = j; i < (j+x); i++ ) {
+  rows[j].push(arrayNum[i]);
+  }
+}; // end of row arrays . . there are some empty rows not sure if this is a problem
+// consider filtering them out if it is an issue 
+// var filtered = array.filter(function (el) {
+//   return el != null;
+// });
+
+let diagonal1 = [];
+
+for ( let j = 0; j < arrayNum.length; j+=(x+1) ) {
+  diagonal1.push(arrayNum[j]);
+}; // end of diagonal1
 
 
-// if last value was X than next value will be O
+let diagonal2 = [];
+
+for ( let j = (x-1); j < arrayNum.length-1; j+=(x-1) ) {
+  diagonal2.push(arrayNum[j]);
+};
+// end of diagonal2
+
+
+
+
+
+
+// keep track of plays
+let countPlays = 0;
+
 
 $('.board > div').on('click', function( e ){
 // this allows you to click anywhere on the board
@@ -76,21 +124,35 @@ $('.board > div').on('click', function( e ){
 
   if ($(`.${boxNum}`).html().length === 0 ) {
 
-// find out if its X or O
+    // find out if its X or O
     const play = tic.nextPlay();
-// insert X or O into box clicked
+
+    // insert X or O into box clicked
     $(`.${boxNum}`).html(play);
-// updated lastPlayed value
-    tic.boxNumber[boxNum] = play;
+
+    // updated lastPlayed value
+    tic.boxNumber[boxNum] = play;  // need to splice, slice or dice to get number only
     tic.lastPlayed = play;
 
-  if (tic.win()){
-    $('.winner').html(`Player ${play} you win!`);
-  }
+    countPlays += 1;
+
+      // also need to display draw no one wins - needs counter
+    if (countPlays === 9) {
+      $('.outcome').html('Draw game!');
+    }
+    // also need to display draw no one wins - needs counter
+
+    if (tic.win()){
+      $('.outcome').html(`Player ${play} you win!`);
+// need to stop game if someone winssss!!!
+
+
+    }
 
   }
 
 }); //end of event handler for clicks
+
 
 
 
