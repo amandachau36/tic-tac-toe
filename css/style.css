@@ -10,9 +10,9 @@ body {
   display: grid;
   background-color: rgb(215, 214, 218);
   /* padding: 10px; */
-  grid-template-columns: repeat(3, 18vw);
-  grid-template-rows: repeat(3, 18vw);
-  width: 55vw;
+  grid-template-columns: repeat(4, 13vw);
+  grid-template-rows: repeat(4, 13vw);
+  width: 53.5vw;
   grid-gap: 0.5vw;
   margin: 0 auto;
 
@@ -24,7 +24,7 @@ body {
   color: rgb(215, 214, 218);
   text-align: center;
   font-family: 'Permanent Marker', cursive;
-  font-size: 15vw;
+  font-size: 10vw;
   font-weight: 600;
 }
 

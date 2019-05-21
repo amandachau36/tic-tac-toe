@@ -6,7 +6,7 @@ console.log('JS is workingg!')
 // });
 
 const tic = {
-  boxNumber: ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
+  boxNumber: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
   lastPlayed: 'O', // let players pick
 
  // if last value was X than next value will be O
@@ -17,7 +17,8 @@ const tic = {
       return 'X';
     }
   },
-  numCols: 3,
+
+  numCols: 4, // number of columns and rows
   win: function(){
 
     const n = this.boxNumber;  //just to shorten things
@@ -64,8 +65,8 @@ const tic = {
 
     for(let j = 0; j < n.length; j+=x){
     	rows[j] = [];
-    for ( let i = j; i < (j+x); i++ ) {
-      rows[j].push(n[i]);
+      for ( let i = j; i < (j+x); i++ ) {
+        rows[j].push(n[i]);
       }
     };
     // what happens to the empty arrays . . . . ..
@@ -83,36 +84,7 @@ const tic = {
 };// end to tic object
 
 
-//
-// let cols = [];
-//
-// const arrayNum = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-//
-// for(let j = 0; j < x; j++){
-//   cols[j] = [];
-//   for ( let i = j; i < arrayNum.length; i+=x ) {
-//     cols[j].push(arrayNum[i]);
-//   }
-// }; // end of column arrays
-//
-// let rows = [];
-// for(let j = 0; j < arrayNum.length; j+=x){
-// 	rows[j] = [];
-// for ( let i = j; i < (j+x); i++ ) {
-//   rows[j].push(arrayNum[i]);
-//   }
-// }; // end of row arrays . . there are some empty rows not sure if this is a problem
-// consider filtering them out if it is an issue
-// var filtered = array.filter(function (el) {
-//   return el != null;
-// });
 
-
-
-
-//
-// // to determine if the array is WINNERR
-// diagonal2.every(x => x === 'X') || diagonal2.every(x => x === 'O');
 
 
 
@@ -136,13 +108,16 @@ $('.board > div').on('click', function( e ){
     $(`.${boxNum}`).html(play);
 
     // updated lastPlayed value
-    tic.boxNumber[parseInt(boxNum.replace(/\D/g,''))] = play;  // need to splice, slice or dice to get number only
+  // remove all letters and turn string into numbers and save in array
+    tic.boxNumber[parseInt(boxNum.replace(/\D/g,''))] = play;
+
+
     tic.lastPlayed = play;
 
     countPlays += 1;
 
-      // also need to display draw no one wins - needs counter
-    if (countPlays === 9) {
+    // also need to display draw no one wins - needs counter
+    if (countPlays === 16) {
       $('.outcome').html('Draw game!');
     }
     // also need to display draw no one wins - needs counter
@@ -158,59 +133,8 @@ $('.board > div').on('click', function( e ){
 }); //end of event handler for clicks
 
 
+// $(`<div class="box${work}"></div>`).appendTo('body');
 
-    // need to stop game someone
-
-
-// const updateTic = function(boxNum, play){
-//   tic.boxNumber[boxNum] = play;
-//   tic.lastPlayed = play;
-// };
-
-
-
-// $('.box1').on('click', function(){
-//   const play = tic.nextPlay();
-//   $('.box1').html(play);
-//   updateTic('box1', play);
-//
-// });
-//
-// $('.box2').on('click', function(){
-//   const play = tic.nextPlay();
-//   $('.box2').html(play);
-//   tic.boxNumber.box2 = play;
-//   tic.lastPlayed = play;
-// });
-//
-// $('.box3').on('click', function(){
-//   $('.box3').html('X');
-// });
-//
-// $('.box4').on('click', function(){
-//   $('.box4').html('X');
-// });
-//
-// $('.box5').on('click', function(){
-//   $('.box5').html('X');
-// });
-//
-// $('.box6').on('click', function(){
-//   $('.box6').html('X');
-// });
-//
-// $('.box7').on('click', function(){
-//   $('.box7').html('X');
-// });
-//
-// $('.box8').on('click', function(){
-//   $('.box8').html('X');
-// });
-//
-// $('.box9').on('click', function(){
-//   $('.box9').html('X');
-// });
-//
 
 
 // Big Goals
