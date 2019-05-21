@@ -6,18 +6,7 @@ console.log('JS is workingg!')
 // });
 
 const tic = {
-  boxNumber: {
-    box1: '1', //make this  into an array
-    box2: '2',
-    box3: '3',
-    box4: '4',
-    box5: '5',
-    box6: '6',
-    box7: '7',
-    box8: '8',
-    box9: '9',
-
-  },
+  boxNumber: ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
   lastPlayed: 'O', // let players pick
 
  // if last value was X than next value will be O
@@ -28,38 +17,64 @@ const tic = {
       return 'X';
     }
   },
+  numCols: 3,
   win: function(){
-    const x = this.boxNumber  //turn this into an array item
 
-    if (x.box1 === x.box2 && x.box2 === x.box3) {
-      return true;
+    const n = this.boxNumber;  //just to shorten things
+    let x = this.numCols;
+
+    let diagonal1 = [];
+    for ( let j = 0; j < n.length; j+=(x+1) ) {
+      diagonal1.push(n[j]);
+    };
+
+    if (diagonal1.every(x => x === 'X') || diagonal1.every(x => x === 'O')){
+      return true
+    };
+    // end of diagonal1
+
+    let diagonal2 = [];
+
+    for ( let j = (x-1); j < n.length-1; j+=(x-1) ) {
+      diagonal2.push(n[j]);
+    };
+
+    if (diagonal2.every(x => x === 'X') || diagonal2.every(x => x === 'O')){
+      return true
+    };
+    // end of diagonal2
+
+    let cols = [];
+
+    for(let j = 0; j < x; j++){
+      cols[j] = [];
+      for ( let i = j; i < n.length; i+=x ) {
+        cols[j].push(n[i]);
       }
+    };
 
-    if (x.box1 === x.box4 && x.box4 === x.box7) {
-      return true;
-    }
+    for (let i = 0; i < cols.length; i++) {
+      if (cols[i].every(x => x === 'X') || cols[i].every(x => x === 'O')){
+        return true
+      }
+    }; // end of columns
 
-    if (x.box1 === x.box5 && x.box5 === x.box9) {
-      return true;
-    }
 
-    if (x.box3 === x.box6 && x.box6 === x.box9) {
-      return true;
-    }
+    let rows = [];
 
-    if (x.box7 === x.box8 && x.box8 === x.box9) {
-      return true;
-    }
+    for(let j = 0; j < n.length; j+=x){
+    	rows[j] = [];
+    for ( let i = j; i < (j+x); i++ ) {
+      rows[j].push(n[i]);
+      }
+    };
+    // what happens to the empty arrays . . . . ..
+    for(let i = 0; i < rows.length; i+=x){
+      if (rows[i].every(x => x === 'X') || rows[i].every(x => x === 'O')){
+        return true
+      }
+    }; // end of row arrays
 
-    if (x.box4 === x.box5 && x.box5 === x.box6) {
-      return true;
-    }
-
-    if (x.box2 === x.box5 && x.box5 === x.box8) {
-      return true;
-    }
-
-    // need to stop game someone
 
   },
 
@@ -67,47 +82,37 @@ const tic = {
 
 };// end to tic object
 
-let x = 3 // number of columns/rows
 
-let cols = [];
-
-const arrayNum = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-
-for(let j = 0; j < x; j++){
-  cols[j] = [];
-  for ( let i = j; i < arrayNum.length; i+=x ) {
-    cols[j].push(arrayNum[i]);
-  }
-}; // end of column arrays
-
-let rows = [];
-for(let j = 0; j < arrayNum.length; j+=x){
-	rows[j] = [];
-for ( let i = j; i < (j+x); i++ ) {
-  rows[j].push(arrayNum[i]);
-  }
-}; // end of row arrays . . there are some empty rows not sure if this is a problem
-// consider filtering them out if it is an issue 
+//
+// let cols = [];
+//
+// const arrayNum = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+//
+// for(let j = 0; j < x; j++){
+//   cols[j] = [];
+//   for ( let i = j; i < arrayNum.length; i+=x ) {
+//     cols[j].push(arrayNum[i]);
+//   }
+// }; // end of column arrays
+//
+// let rows = [];
+// for(let j = 0; j < arrayNum.length; j+=x){
+// 	rows[j] = [];
+// for ( let i = j; i < (j+x); i++ ) {
+//   rows[j].push(arrayNum[i]);
+//   }
+// }; // end of row arrays . . there are some empty rows not sure if this is a problem
+// consider filtering them out if it is an issue
 // var filtered = array.filter(function (el) {
 //   return el != null;
 // });
 
-let diagonal1 = [];
-
-for ( let j = 0; j < arrayNum.length; j+=(x+1) ) {
-  diagonal1.push(arrayNum[j]);
-}; // end of diagonal1
-
-
-let diagonal2 = [];
-
-for ( let j = (x-1); j < arrayNum.length-1; j+=(x-1) ) {
-  diagonal2.push(arrayNum[j]);
-};
-// end of diagonal2
 
 
 
+//
+// // to determine if the array is WINNERR
+// diagonal2.every(x => x === 'X') || diagonal2.every(x => x === 'O');
 
 
 
@@ -118,7 +123,7 @@ let countPlays = 0;
 $('.board > div').on('click', function( e ){
 // this allows you to click anywhere on the board
 // and to return className of target depending where you click
-  let boxNum = e.target.className;
+  let boxNum = e.target.className; //$(e.target).attr('index')
 
 // if spot is empty then run code below
 
@@ -131,7 +136,7 @@ $('.board > div').on('click', function( e ){
     $(`.${boxNum}`).html(play);
 
     // updated lastPlayed value
-    tic.boxNumber[boxNum] = play;  // need to splice, slice or dice to get number only
+    tic.boxNumber[parseInt(boxNum.replace(/\D/g,''))] = play;  // need to splice, slice or dice to get number only
     tic.lastPlayed = play;
 
     countPlays += 1;
@@ -144,8 +149,7 @@ $('.board > div').on('click', function( e ){
 
     if (tic.win()){
       $('.outcome').html(`Player ${play} you win!`);
-// need to stop game if someone winssss!!!
-
+      $('.board > div').off('click');
 
     }
 
@@ -155,6 +159,7 @@ $('.board > div').on('click', function( e ){
 
 
 
+    // need to stop game someone
 
 
 // const updateTic = function(boxNum, play){
