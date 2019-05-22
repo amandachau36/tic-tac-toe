@@ -1,15 +1,9 @@
-console.log('JS is workingg!')
-
-
-// $('.box3').on('click', function(){
-//   console.log('you clicked on box 3')
-// });
+console.log('JS is working!')
 
 const tic = {
   boxNumber: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
-  lastPlayed: 'O', // let players pick
-
- // if last value was X than next value will be O
+  lastPlayed: 'O',
+  // if last value was X than next value will be O, vice versa
   nextPlay: function(){
     if (this.lastPlayed === 'X'){
       return 'O';
@@ -17,78 +11,85 @@ const tic = {
       return 'X';
     }
   },
-
   numCols: 4, // number of columns and rows
+  isMatch: function(line){
+    // Checks if every item in the arrays below are ALL the same
+    if (line.every(x => x === 'X') || line.every(x => x === 'O')) {
+      return true;
+    }
+  },
   win: function(){
+    // this creates arrays for each possible winning line (rows,
+    // columns, diagonals x 2)
+    // Then the isMatch() is used to determine if all values within each
+    // array are the SAME
+    // If SAME then this function evaluates to true
 
-    const n = this.boxNumber;  //just to shorten things
     let x = this.numCols;
 
     let diagonal1 = [];
-    for ( let j = 0; j < n.length; j+=(x+1) ) {
-      diagonal1.push(n[j]);
+    for ( let j = 0; j < this.boxNumber.length; j+=(x+1) ) {
+      diagonal1.push(this.boxNumber[j]);
     };
 
-    if (diagonal1.every(x => x === 'X') || diagonal1.every(x => x === 'O')){
-      return true
-    };
-    // end of diagonal1
+    if( this.isMatch(diagonal1) ){
+      return true;
+    };   // end of diagonal1
+
 
     let diagonal2 = [];
 
-    for ( let j = (x-1); j < n.length-1; j+=(x-1) ) {
-      diagonal2.push(n[j]);
+    for ( let j = (x-1); j < this.boxNumber.length-1; j+=(x-1) ) {
+      diagonal2.push(this.boxNumber[j]);
     };
 
-    if (diagonal2.every(x => x === 'X') || diagonal2.every(x => x === 'O')){
-      return true
-    };
-    // end of diagonal2
+    if( this.isMatch(diagonal2) ){
+      return true;
+    }; // end of diagonal2
+
 
     let cols = [];
 
     for(let j = 0; j < x; j++){
+    // creates an array within cols (i.e. cols will be an array of arrays)
       cols[j] = [];
-      for ( let i = j; i < n.length; i+=x ) {
-        cols[j].push(n[i]);
+      for ( let i = j; i < this.boxNumber.length; i+=x ) {
+        cols[j].push(this.boxNumber[i]);
       }
     };
 
     for (let i = 0; i < cols.length; i++) {
-      if (cols[i].every(x => x === 'X') || cols[i].every(x => x === 'O')){
-        return true
+      if( this.isMatch(cols[i]) ){
+        return true;
       }
     }; // end of columns
 
 
     let rows = [];
 
-    for(let j = 0; j < n.length; j+=x){
-    	rows[j] = [];
+    for(let j = 0, k = 0; j < this.boxNumber.length; j+=x, k++){
+      //k is only the number for arrays, this removes empty arrays problem when using row[j]
+      rows[k] = [];
       for ( let i = j; i < (j+x); i++ ) {
-        rows[j].push(n[i]);
+        rows[k].push(this.boxNumber[i]);
       }
     };
-    // what happens to the empty arrays . . . . ..
-    for(let i = 0; i < rows.length; i+=x){
-      if (rows[i].every(x => x === 'X') || rows[i].every(x => x === 'O')){
-        return true
+
+    for(let i = 0; i < rows.length; i++){
+      if( this.isMatch(rows[i]) ){
+        return true;
       }
-    }; // end of row arrays
+    }; // end of rows
 
 
   },
 
 
-
 };// end to tic object
 
+//end of game logic
 
 
-
-
-
-// keep track of plays
 let countPlays = 0;
 
 let gameIsWon = false;
@@ -97,8 +98,9 @@ let gameIsWon = false;
 
 $('.board > div').on('click', function(){
 // this allows you to click anywhere on the board
-// and to return the index depending where you click . . . how does this work???
+// and to return the index depending where you click
 
+  // disables the rest of code after a player wins by exiting function
   if (gameIsWon) {
     return
   }
@@ -111,8 +113,7 @@ $('.board > div').on('click', function(){
   // console.log($(this).html());
 
 
-
-// if spot is empty then run code below
+  // if spot is empty then run code below
   if ($(this).html().length === 0 ) {
 
     // find out if its X or O
@@ -121,11 +122,10 @@ $('.board > div').on('click', function(){
     // insert X or O into box clicked
     $(this).html(play);
 
-    // updated lastPlayed value
-  // remove all letters and turn string into numbers and save in array
+    // updated lastPlayed value, turn index(string) into a number
     tic.boxNumber[parseInt(boxNum)] = play; //
 
-
+    // updated lastPlayed value, turn index(string) into a number
     tic.lastPlayed = play;
 
     countPlays += 1;
@@ -146,7 +146,7 @@ $('.board > div').on('click', function(){
 
 }); //end of event handler for clicks
 
-// make height the same as width 
+// make height the same as width
 // var cw = $('.child').width();
 // $('.child').css({'height':cw+'px'});
 
