@@ -26,7 +26,6 @@ const tic = {
     if (line.every(x => x === 'X') || line.every(x => x === 'O')) {
       return true;
     }
-
     // return line.every(x => x === player); //|| line.every(x => x === 'O');
 
   },
@@ -136,9 +135,6 @@ $('.quarter.size').on('click', function(){
   tic.createBoxNumber();
 
 
-
-
-
 });
 
 
@@ -207,6 +203,17 @@ $(document).on('click', '.board > div', function(){
 
 
 
+$('#reset').on('click', function(){
+
+  // clear board
+  $('.board > div').html('');
+
+  // clear boxNumber array, number of plays and gameIsWon
+  countPlays = 0;
+  gameIsWon = false;
+  tic.createBoxNumber();
+
+});
 
 
 // Big Goals

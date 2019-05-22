@@ -17,14 +17,18 @@ h1 {
 
 .firstColumn{
   display: inline-block;
-  width: 50%;
+  width: 47%;
+  margin-top: 0%;
+  margin-bottom: 0%;
 
 }
 
 .secondColumn{
   display: inline-block;
-  width: 50%;
+  width: 53%;
   font-size: 3vw;
+  /* margin-top: 0%;
+  margin-bottom: 0%; */
 }
 
 .quarter{
@@ -42,6 +46,25 @@ h1 {
   color: rgb(215, 214, 218);
 }
 
+.button{
+  display: inline-block;
+
+}
+
+#reset{
+  color: rgb(215, 214, 218);
+  background: transparent;
+  font-family: 'Permanent Marker', cursive;
+  border-radius: 10px;
+  font-size: 2.5vw
+}
+
+/* #reset:hover {
+  box-shadow: none;
+  opacity: 1.0;
+} */
+
+
 .board {
   display: grid;
   background-color: rgb(215, 214, 218);
@@ -52,7 +75,7 @@ h1 {
   width: 46vw;
   height: 46vw;
   grid-gap: 0.5vw;
-  margin: 5% auto;
+  margin: 0 10% 5% 45%;
 
 }
 
