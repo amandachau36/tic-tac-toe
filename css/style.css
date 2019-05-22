@@ -45,8 +45,10 @@ h1 {
 .board {
   display: grid;
   background-color: rgb(215, 214, 218);
-  grid-template-columns: repeat(4, 11.125vw);
-  grid-template-rows: repeat(4, 11.125vw);
+  /* grid-template-columns: 1fr 1fr 1fr 1fr; */
+  /* repeat(4, 11.125vw); */
+  /* grid-template-rows: 1fr 1fr 1fr 1fr; */
+  /* repeat(4, 11.125vw); */
   width: 46vw;
   height: 46vw;
   grid-gap: 0.5vw;
@@ -58,13 +60,17 @@ h1 {
   background-color: rgb(57, 57, 57);
   color: rgb(223, 237, 136);
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
+
+  text-align: center;
+  line-height: 100%;
 
   font-family: 'Permanent Marker', cursive;
-  font-size: 9vw;
+  /* font-size: 10.75vw; */
   font-weight: 600;
+  overflow: hidden;
 }
 
 

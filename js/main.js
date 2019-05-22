@@ -89,16 +89,54 @@ const tic = {
 
 //end of game logic
 
+//change board size
+
+$('.quarter.size').on('click', function(){
+
+  //boardSize will be 3x3, 4x4 or 5x5 depending on what gets clicked
+  const boardSize = parseInt($(this).attr("index"));
+
+  //clear previous divs that were appended
+  $( ".board" ).empty();
+
+  // append appropriate num of divs based on boardSize
+  for(i = 0; i < boardSize**2; i++){
+    $(`<div class="box${i}" index="${i}"></div>`).appendTo('.board');
+  };
+
+  //calculate CSS settings based on
+  const fontSize = 7+(5/boardSize)**4;
+
+  $('.board').css({
+    gridTemplateColumns: `repeat(${boardSize}, 1fr)`,
+    gridTemplateRows:  `repeat(${boardSize}, 1fr)`,
+    fontSize: `${fontSize}vw`,
+  });
+
+  //fix game logic based on board size  
+
+
+
+
+});
+
+
+
+
 
 let countPlays = 0;
 
 let gameIsWon = false;
 
 
+// event delegation - attach a click handler to the
+// entire document, and test the selector AT CLICK time
+// before running the handler function (only if it matches)
+$(document).on('click', '.board > div', function(){
 
-$('.board > div').on('click', function(){
-// this allows you to click anywhere on the board
-// and to return the index depending where you click
+  // $('.board > div').on('click', function(){
+  // this allows you to click anywhere on the board
+  // and to return the index depending where you click
 
   // disables the rest of code after a player wins by exiting function
   if (gameIsWon) {
@@ -109,7 +147,7 @@ $('.board > div').on('click', function(){
   // this refers to the box you clicked on in $('.board > div')
   let boxNum = $(this).attr('index');
 
-  // console.log(boxNum);
+  console.log(boxNum);
   // console.log($(this).html());
 
 
@@ -146,12 +184,7 @@ $('.board > div').on('click', function(){
 
 }); //end of event handler for clicks
 
-// make height the same as width
-// var cw = $('.child').width();
-// $('.child').css({'height':cw+'px'});
 
-
-// $(`<div class="box${work}"></div>`).appendTo('body');
 
 
 
