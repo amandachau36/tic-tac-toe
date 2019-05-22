@@ -1,7 +1,8 @@
 console.log('JS is working!')
 
 const tic = {
-  boxNumber: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
+  boxNumber: [],
+  // ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
   lastPlayed: 'O',
   // if last value was X than next value will be O, vice versa
   nextPlay: function(){
@@ -11,12 +12,23 @@ const tic = {
       return 'X';
     }
   },
-  numCols: 4, // number of columns and rows
+  numCols: 3, // number of columns and rows
+  createBoxNumber: function(){
+
+    this.boxNumber = [];
+
+    for (let i = 0; i < this.numCols**2; i++) {
+      this.boxNumber.push(i);
+    }
+  },
   isMatch: function(line){
     // Checks if every item in the arrays below are ALL the same
     if (line.every(x => x === 'X') || line.every(x => x === 'O')) {
       return true;
     }
+
+    // return line.every(x => x === player); //|| line.every(x => x === 'O');
+
   },
   win: function(){
     // this creates arrays for each possible winning line (rows,
@@ -91,6 +103,8 @@ const tic = {
 
 //change board size
 
+let countPlays = 0;
+
 $('.quarter.size').on('click', function(){
 
   //boardSize will be 3x3, 4x4 or 5x5 depending on what gets clicked
@@ -98,6 +112,10 @@ $('.quarter.size').on('click', function(){
 
   //clear previous divs that were appended
   $( ".board" ).empty();
+
+  //clear counter for current game
+  countPlays = 0;
+
 
   // append appropriate num of divs based on boardSize
   for(i = 0; i < boardSize**2; i++){
@@ -113,7 +131,10 @@ $('.quarter.size').on('click', function(){
     fontSize: `${fontSize}vw`,
   });
 
-  //fix game logic based on board size  
+  //fix game logic based on board size
+  tic.numCols = boardSize;
+  tic.createBoxNumber();
+
 
 
 
@@ -124,7 +145,7 @@ $('.quarter.size').on('click', function(){
 
 
 
-let countPlays = 0;
+
 
 let gameIsWon = false;
 
@@ -169,7 +190,7 @@ $(document).on('click', '.board > div', function(){
     countPlays += 1;
 
     // also need to display draw no one wins - needs counter
-    if (countPlays === 16) {
+    if (countPlays === (tic.numCols)**2) {
       $('.outcome').html('Draw game!');
     }
     // also need to display draw no one wins - needs counter
