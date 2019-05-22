@@ -48,6 +48,7 @@ h1 {
 
 .button{
   display: inline-block;
+  width: 100%;
 
 }
 
@@ -57,16 +58,22 @@ h1 {
   font-family: 'Permanent Marker', cursive;
   border-radius: 10px;
   font-size: 2.5vw
+  display: inline-block;
 }
 
-/* #reset:hover {
-  box-shadow: none;
-  opacity: 1.0;
-} */
+.score{
+  display: inline-block;
+  width: 100%;
+}
+.score > div {
+  /* background-color: pink; */
+}
 
-
+.leftside{
+  width: 40vw;
+}
 .board {
-  display: grid;
+  display: inline-grid;
   background-color: rgb(215, 214, 218);
   /* grid-template-columns: 1fr 1fr 1fr 1fr; */
   /* repeat(4, 11.125vw); */

@@ -2,7 +2,7 @@ console.log('JS is working!')
 
 const tic = {
   boxNumber: [],
-  // ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
+
   lastPlayed: 'O',
   // if last value was X than next value will be O, vice versa
   nextPlay: function(){
@@ -21,6 +21,8 @@ const tic = {
       this.boxNumber.push(i);
     }
   },
+  oScore: 0,
+  xScore: 0,
   isMatch: function(line){
     // Checks if every item in the arrays below are ALL the same
     if (line.every(x => x === 'X') || line.every(x => x === 'O')) {
@@ -100,10 +102,11 @@ const tic = {
 
 //end of game logic
 
-//change board size
+
 
 let countPlays = 0;
 
+//change board size
 $('.quarter.size').on('click', function(){
 
   //boardSize will be 3x3, 4x4 or 5x5 depending on what gets clicked
@@ -135,7 +138,7 @@ $('.quarter.size').on('click', function(){
   tic.createBoxNumber();
 
 
-});
+}); // end of boardsize
 
 
 
@@ -194,7 +197,13 @@ $(document).on('click', '.board > div', function(){
     if (tic.win()){
       $('.outcome').html(`Player ${play} you win!`);
       gameIsWon = true;
-
+      if (play === 'X'){
+        tic.xScore += 1;
+      } else {
+        tic.oScore += 1;
+      }
+      $('#xScore').html(`${tic.xScore}`);
+      $('#oScore').html(`${tic.oScore}`);
     }
 
   }
