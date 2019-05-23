@@ -97,8 +97,9 @@ const tic = {
 
   },
   randomMove: function(){
+    //Create an array of empty boxes
     const possibleMoves = this.boxNumber.filter(x => typeof(x) === 'number');
-      console.log(possibleMoves);
+    //Pick a
     const randomIndex = Math.floor(Math.random()*(possibleMoves.length));
       console.log(randomIndex);
       console.log(possibleMoves[randomIndex]);
@@ -153,73 +154,8 @@ $('.quarter.size').on('click', function(){
 
 
 
-
-
-
 let gameIsWon = false;
-
-
-// event delegation - attach a click handler to the
-// entire document, and test the selector AT CLICK time
-// before running the handler function (only if it matches)
-$(document).on('click', '.board > div', function(){
-
-  // $('.board > div').on('click', function(){
-  // this allows you to click anywhere on the board
-  // and to return the index depending where you click
-
-  // disables the rest of code after a player wins by exiting function
-  if (gameIsWon) {
-    return
-  }
-
-  // let boxNum = $(e.target).attr('index');
-  // this refers to the box you clicked on in $('.board > div')
-  let boxNum = $(this).attr('index');
-
-  console.log(boxNum);
-  // console.log($(this).html());
-
-
-  // if spot is empty then run code below
-  if ($(this).html().length === 0 ) {
-
-    // find out if its X or O
-    const play = tic.nextPlay();
-
-    // insert X or O into box clicked
-    $(this).html(play);
-
-    // updated lastPlayed value, turn index(string) into a number
-    tic.boxNumber[parseInt(boxNum)] = play; //
-
-    // updated lastPlayed value, turn index(string) into a number
-    tic.lastPlayed = play;
-
-    countPlays += 1;
-
-    // also need to display draw no one wins - needs counter
-    if (countPlays === (tic.numCols)**2) {
-      $('.outcome').html('Draw game!').show();
-    }
-    // also need to display draw no one wins - needs counter
-
-    if (tic.win()){
-      $('.outcome').html(`Player ${play} you win!`);
-      $('.outcome, .outcomeBackground').show();
-      gameIsWon = true;
-      if (play === 'X'){
-        tic.xScore += 1;
-      } else {
-        tic.oScore += 1;
-      }
-      $('#xScore').html(`${tic.xScore}`);
-      $('#oScore').html(`${tic.oScore}`);
-    }
-
-  }
-
-}); //end of event handler for clicks
+let computerTurn = false;
 
 
 
@@ -239,28 +175,149 @@ $('#reset').on('click', function(){
 
 // 1 person game
 // this places an X in a random empty spot
-$(`.box${tic.randomMove()})`.html('X');
+// $(`.box${tic.randomMove()}`).html('X');
+
+
+  $(document).on('click', '.board > div', function(){
+
+    // $('.board > div').on('click', function(){
+    // this allows you to click anywhere on the board
+    // and to return the index depending where you click
+
+    // disables the rest of code after a player wins by exiting function
+    if (gameIsWon || computerTurn ) {
+      return;
+    }
+
+    // let boxNum = $(e.target).attr('index');
+    // this refers to the box you clicked on in $('.board > div')
+    let boxNum = $(this).attr('index');
+
+    console.log(boxNum);
+    // console.log($(this).html());
+
+
+    // if spot is empty then run code below
+    if ($(this).html().length === 0 ) {
+
+      // find out if its X or O
+      let play = tic.nextPlay();
+
+      // insert X or O into box clicked
+      $(this).html(play);
+
+      // updated lastPlayed value, turn index(string) into a number
+      tic.boxNumber[parseInt(boxNum)] = play; //
+
+      // updated lastPlayed value, turn index(string) into a number
+      tic.lastPlayed = play;
+
+      countPlays += 1;
+
+      // also need to display draw no one wins - needs counter
+      if (countPlays === (tic.numCols)**2) {
+        $('.outcome').html('Draw game!').show();
+      }
+      // also need to display draw no one wins - needs counter
+
+      if (tic.win()){
+        youWin(play);
+
+      }
+
+      // disable clicks....
+      computerTurn = true;
+
+      if (gameIsWon === false){
+        window.setTimeout(function(){
+            play = tic.nextPlay();
+            const computerMove = tic.randomMove();
+            $(`.box${computerMove}`).html(play);
+            tic.boxNumber[computerMove] = play;
+            tic.lastPlayed = play;
+            if (tic.win()){
+              youWin(play);
+            }
+            computerTurn = false;
+        }, 800);
+      }
+    }
+});
+
+const youWin = function(play){
+  $('.outcome').html(`Player ${play} wins!`);
+  $('.outcome, .outcomeBackground').show();
+  gameIsWon = true;
+  if (play === 'X'){
+    tic.xScore += 1;
+  } else {
+    tic.oScore += 1;
+  }
+  $('#xScore').html(`${tic.xScore}`);
+  $('#oScore').html(`${tic.oScore}`);
+
+};
 
 
 
-
-// Big Goals
-// Build a web application from scratch, without a starter codebase
-// Use your programming skills to map out the game logic for a simple game like Tic Tac Toe
-// Separate HTML, CSS, and JavaScript files in your application
-// Build an application to a spec that someone else gives you
-// Build a dynamic game that allows two players to compete
-// Craft a README.md file that explains your app to the world
-// Technical Requirements
-// Your app must:
+// event delegation - attach a click handler to the
+// entire document, and test the selector AT CLICK time
+// before running the handler function (only if it matches)
+// $(document).on('click', '.board > div', function(){
 //
-// Render a game board in the browser
-// Switch turns between X and O (or whichever markers you select); your game should prevent users from playing a turn into a square that is already occupied
-// Visually display which side won if a player gets three in a row or show a draw/"cat’s game" if neither wins
-// Include separate HTML / CSS / JavaScript files
-// Stick with KISS (Keep It Simple Stupid) and DRY (Don't Repeat Yourself) principles
-// Use Javascript with jQuery for DOM manipulation
-// Deploy your game online, where the rest of the world can access it
-// Use semantic markup for HTML and CSS (adhere to best practices)
-
-// need fix ccs and what happens when someone switches to 3x3 4x4 etc inbetween games
+//   // $('.board > div').on('click', function(){
+//   // this allows you to click anywhere on the board
+//   // and to return the index depending where you click
+//
+//   // disables the rest of code after a player wins by exiting function
+//   if (gameIsWon) {
+//     return
+//   }
+//
+//   // let boxNum = $(e.target).attr('index');
+//   // this refers to the box you clicked on in $('.board > div')
+//   let boxNum = $(this).attr('index');
+//
+//   console.log(boxNum);
+//   // console.log($(this).html());
+//
+//
+//   // if spot is empty then run code below
+//   if ($(this).html().length === 0 ) {
+//
+//     // find out if its X or O
+//     const play = tic.nextPlay();
+//
+//     // insert X or O into box clicked
+//     $(this).html(play);
+//
+//     // updated lastPlayed value, turn index(string) into a number
+//     tic.boxNumber[parseInt(boxNum)] = play; //
+//
+//     // updated lastPlayed value, turn index(string) into a number
+//     tic.lastPlayed = play;
+//
+//     countPlays += 1;
+//
+//     // also need to display draw no one wins - needs counter
+//     if (countPlays === (tic.numCols)**2) {
+//       $('.outcome').html('Draw game!').show();
+//     }
+//     // also need to display draw no one wins - needs counter
+//
+//     if (tic.win()){
+//       $('.outcome').html(`Player ${play} you win!`);
+//       $('.outcome, .outcomeBackground').show();
+//       gameIsWon = true;
+//       if (play === 'X'){
+//         tic.xScore += 1;
+//       } else {
+//         tic.oScore += 1;
+//       }
+//       $('#xScore').html(`${tic.xScore}`);
+//       $('#oScore').html(`${tic.oScore}`);
+//     }
+//
+//   }
+//
+// }); //end of event handler for clicks
