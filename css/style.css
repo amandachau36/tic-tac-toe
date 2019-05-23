@@ -57,15 +57,13 @@ h1 {
   width: 100%;
 }
 
-.score{
-  padding-top: 8%;
-}
 #reset{
   color: rgb(215, 214, 218);
   background: transparent;
   font-family: 'Permanent Marker', cursive;
   border-radius: 10px;
   font-size: 2.5vw;
+  outline: none;
 
 }
 
@@ -73,9 +71,13 @@ h1 {
   width: 100%;
   /* background-color: pink; */
   font-size: 2.5vw;
+    padding-top: 8%;
 }
 
-
+.rightside{
+  width: 46vw;
+  display: inline-block;
+}
 .board {
   display: inline-grid;
   background-color: rgb(215, 214, 218);
@@ -106,8 +108,22 @@ h1 {
   overflow: hidden;
 }
 
+.outcomeBackground{
+  background: radial-gradient(rgba(0, 0, 0, 1),rgba(0, 0, 0, 0.6));
+  width: 46vw;
+  height: auto;
+  display: none;
+  border-radius: 10px;
+  /* display: inline-block; */
+  position: relative;
+  top: -28vw;
+
+}
 
 .outcome {
-  background-color: pink;
+  background: transparent;
   font-size: 5vw;
+  width: 46vw;
+  color:rgb(223, 140, 244);
+  text-align: center;
 }

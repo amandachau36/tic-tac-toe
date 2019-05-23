@@ -96,6 +96,14 @@ const tic = {
 
 
   },
+  randomMove: function(){
+    const possibleMoves = this.boxNumber.filter(x => typeof(x) === 'number');
+      console.log(possibleMoves);
+    const randomIndex = Math.floor(Math.random()*(possibleMoves.length));
+      console.log(randomIndex);
+      console.log(possibleMoves[randomIndex]);
+      return possibleMoves[randomIndex];
+  },
 
 
 };// end to tic object
@@ -118,6 +126,7 @@ $('.quarter.size').on('click', function(){
   //clear counter for current game
   countPlays = 0;
   gameIsWon = false;
+  $('.outcome').hide();
 
 
   // append appropriate num of divs based on boardSize
@@ -196,7 +205,8 @@ $(document).on('click', '.board > div', function(){
     // also need to display draw no one wins - needs counter
 
     if (tic.win()){
-      $('.outcome').html(`Player ${play} you win!`).show();
+      $('.outcome').html(`Player ${play} you win!`);
+      $('.outcome, .outcomeBackground').show();
       gameIsWon = true;
       if (play === 'X'){
         tic.xScore += 1;
@@ -225,6 +235,13 @@ $('#reset').on('click', function(){
   $('.outcome').hide();
 
 });
+
+
+// 1 person game
+// this places an X in a random empty spot
+$(`.box${tic.randomMove()})`.html('X');
+
+
 
 
 // Big Goals
