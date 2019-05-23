@@ -117,6 +117,7 @@ $('.quarter.size').on('click', function(){
 
   //clear counter for current game
   countPlays = 0;
+  gameIsWon = false;
 
 
   // append appropriate num of divs based on boardSize
@@ -190,12 +191,12 @@ $(document).on('click', '.board > div', function(){
 
     // also need to display draw no one wins - needs counter
     if (countPlays === (tic.numCols)**2) {
-      $('.outcome').html('Draw game!');
+      $('.outcome').html('Draw game!').show();
     }
     // also need to display draw no one wins - needs counter
 
     if (tic.win()){
-      $('.outcome').html(`Player ${play} you win!`);
+      $('.outcome').html(`Player ${play} you win!`).show();
       gameIsWon = true;
       if (play === 'X'){
         tic.xScore += 1;
@@ -221,6 +222,7 @@ $('#reset').on('click', function(){
   countPlays = 0;
   gameIsWon = false;
   tic.createBoxNumber();
+  $('.outcome').hide();
 
 });
 
@@ -243,3 +245,5 @@ $('#reset').on('click', function(){
 // Use Javascript with jQuery for DOM manipulation
 // Deploy your game online, where the rest of the world can access it
 // Use semantic markup for HTML and CSS (adhere to best practices)
+
+// need fix ccs and what happens when someone switches to 3x3 4x4 etc inbetween games
