@@ -2,7 +2,6 @@ console.log('JS is working!')
 
 const tic = {
   boxNumber: [],
-
   lastPlayed: 'O',
   // if last value was X than next value will be O, vice versa
   nextPlay: function(){
@@ -111,9 +110,32 @@ const tic = {
 
 //end of game logic
 
-
-
 let countPlays = 0;
+let gameIsWon = false;
+let computerTurn = false;
+
+
+const clear = function(){
+
+//hides winner/draw banner
+    $('.outcome').hide();
+
+//reset to initial conditions
+  countPlays = 0;
+  gameIsWon = false;
+  computerTurn = false;
+  // setting tic.lastPlayed maybe problematic for the 2 player version.
+  tic.lastPlayed = 'O';
+
+// generates boxNumber array with numbers again
+  tic.createBoxNumber();
+
+
+};
+
+
+
+
 
 //change board size
 $('.quarter.size').on('click', function(){
@@ -121,14 +143,14 @@ $('.quarter.size').on('click', function(){
   //boardSize will be 3x3, 4x4 or 5x5 depending on what gets clicked
   const boardSize = parseInt($(this).attr("index"));
 
+  //fix game logic based on board size
+  tic.numCols = boardSize;
+
+  // resets to initial settings and regenerates array
+  clear();
+
   //clear previous divs that were appended
   $( ".board" ).empty();
-
-  //clear counter for current game
-  countPlays = 0;
-  gameIsWon = false;
-  $('.outcome').hide();
-
 
   // append appropriate num of divs based on boardSize
   for(i = 0; i < boardSize**2; i++){
@@ -144,38 +166,46 @@ $('.quarter.size').on('click', function(){
     fontSize: `${fontSize}vw`,
   });
 
-  //fix game logic based on board size
-  tic.numCols = boardSize;
-  tic.createBoxNumber();
-
 
 }); // end of boardsize
 
 
 
 
-let gameIsWon = false;
-let computerTurn = false;
-
-
-
 $('#reset').on('click', function(){
 
-  // clear board
+  // clear x and o from board
   $('.board > div').html('');
 
-  // clear boxNumber array, number of plays and gameIsWon
-  countPlays = 0;
-  gameIsWon = false;
-  tic.createBoxNumber();
-  $('.outcome').hide();
+  clear();
 
 });
 
 
-// 1 person game
-// this places an X in a random empty spot
-// $(`.box${tic.randomMove()}`).html('X');
+//UI update if there is a win
+const youWin = function(play){
+  $('.outcome').html(`Player ${play} wins!`);
+  $('.outcome, .outcomeBackground').show();
+  gameIsWon = true;
+  if (play === 'X'){
+    tic.xScore += 1;
+  } else {
+    tic.oScore += 1;
+  };
+  $('#xScore').html(`${tic.xScore}`);
+  $('#oScore').html(`${tic.oScore}`);
+
+};
+
+//UI update if there is a draw
+const draw = function(){
+    $('.outcome').html('Draw game!');
+    $('.outcome, .outcomeBackground').show();
+};
+
+
+
+
 
 
   $(document).on('click', '.board > div', function(){
@@ -184,7 +214,7 @@ $('#reset').on('click', function(){
     // this allows you to click anywhere on the board
     // and to return the index depending where you click
 
-    // disables the rest of code after a player wins by exiting function
+    // disables the rest of code if player has won or if waiting for the comp to take a turn
     if (gameIsWon || computerTurn ) {
       return;
     }
@@ -194,7 +224,6 @@ $('#reset').on('click', function(){
     let boxNum = $(this).attr('index');
 
     console.log(boxNum);
-    // console.log($(this).html());
 
 
     // if spot is empty then run code below
@@ -214,9 +243,8 @@ $('#reset').on('click', function(){
 
       countPlays += 1;
 
-      // also need to display draw no one wins - needs counter
       if (countPlays === (tic.numCols)**2) {
-        $('.outcome').html('Draw game!').show();
+        draw();
       }
       // also need to display draw no one wins - needs counter
 
@@ -225,18 +253,29 @@ $('#reset').on('click', function(){
 
       }
 
-      // disable clicks....
+      // disable clicks until computer plays
       computerTurn = true;
 
       if (gameIsWon === false){
         window.setTimeout(function(){
+
             play = tic.nextPlay();
+
+            // save random available index
             const computerMove = tic.randomMove();
+
+            // put computer's play on screen
             $(`.box${computerMove}`).html(play);
+
+            //update tic object
             tic.boxNumber[computerMove] = play;
             tic.lastPlayed = play;
+            countPlays += 1;
             if (tic.win()){
               youWin(play);
+            }
+            if (countPlays === (tic.numCols)**2) {
+              draw();
             }
             computerTurn = false;
         }, 800);
@@ -244,19 +283,6 @@ $('#reset').on('click', function(){
     }
 });
 
-const youWin = function(play){
-  $('.outcome').html(`Player ${play} wins!`);
-  $('.outcome, .outcomeBackground').show();
-  gameIsWon = true;
-  if (play === 'X'){
-    tic.xScore += 1;
-  } else {
-    tic.oScore += 1;
-  }
-  $('#xScore').html(`${tic.xScore}`);
-  $('#oScore').html(`${tic.oScore}`);
-
-};
 
 
 
