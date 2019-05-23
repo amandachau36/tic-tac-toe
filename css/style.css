@@ -46,32 +46,41 @@ h1 {
 }
 
 .leftside{
-  width: 40vw;
+  width: 38vw;
   display: inline-block;
   vertical-align: top;
   text-align: center;
+  /* background-color: red; */
 }
 
 .button{
   display: inline-block;
-  width: 100%;
+  margin: 2.5%;
+
 }
 
-#reset{
+#reset, #single{
   color: rgb(215, 214, 218);
   background: transparent;
   font-family: 'Permanent Marker', cursive;
   border-radius: 10px;
   font-size: 2.5vw;
   outline: none;
+  width: 25vw;
 
+}
+
+#single{
+  color: rgb(85, 85, 85);
 }
 
 .score{
   width: 100%;
   /* background-color: pink; */
   font-size: 2.5vw;
-    padding-top: 8%;
+  padding-top: 8%;
+  padding-bottom: 8%;
+  /* display: inline-block; */
 }
 
 .rightside{

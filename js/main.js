@@ -104,6 +104,7 @@ const tic = {
       console.log(possibleMoves[randomIndex]);
       return possibleMoves[randomIndex];
   },
+  singlePlayer: false,
 
 
 };// end to tic object
@@ -181,6 +182,13 @@ $('#reset').on('click', function(){
 
 });
 
+$('#single').on('click', function(){
+  tic.singlePlayer = true;
+  $(this).css("color", "rgb(215, 214, 218)");
+  $('.board > div').html('');
+  clear();
+});
+
 
 //UI update if there is a win
 const youWin = function(play){
@@ -253,32 +261,34 @@ const draw = function(){
 
       }
 
+      if (tic.singlePlayer === true) {
       // disable clicks until computer plays
-      computerTurn = true;
+        computerTurn = true;
 
-      if (gameIsWon === false){
-        window.setTimeout(function(){
+        if (gameIsWon === false){
+          window.setTimeout(function(){
 
-            play = tic.nextPlay();
+              play = tic.nextPlay();
 
-            // save random available index
-            const computerMove = tic.randomMove();
+              // save random available index
+              const computerMove = tic.randomMove();
 
-            // put computer's play on screen
-            $(`.box${computerMove}`).html(play);
+              // put computer's play on screen
+              $(`.box${computerMove}`).html(play);
 
-            //update tic object
-            tic.boxNumber[computerMove] = play;
-            tic.lastPlayed = play;
-            countPlays += 1;
-            if (tic.win()){
-              youWin(play);
-            }
-            if (countPlays === (tic.numCols)**2) {
-              draw();
-            }
-            computerTurn = false;
-        }, 800);
+              //update tic object
+              tic.boxNumber[computerMove] = play;
+              tic.lastPlayed = play;
+              countPlays += 1;
+              if (tic.win()){
+                youWin(play);
+              }
+              if (countPlays === (tic.numCols)**2) {
+                draw();
+              }
+              computerTurn = false;
+          }, 800);
+        }
       }
     }
 });
