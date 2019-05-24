@@ -4,7 +4,7 @@
 
 **Link:** https://amandachau36.github.io/tic-tac-toe/
 
-##Project 0 for GA's WDI
+## Project 0 for GA's WDI
 
 **Goal:** To build a web application from scratch, without a starter codebase
 

@@ -126,8 +126,9 @@ const clear = function(){
   gameIsWon = false;
   computerTurn = false;
   // setting tic.lastPlayed maybe problematic for the 2 player version.
-  tic.lastPlayed = 'O';
-
+  if (tic.singlePlayer === true){
+    tic.lastPlayed = 'O';
+  };
 // generates boxNumber array with numbers again
   tic.createBoxNumber();
 
@@ -183,10 +184,15 @@ $('#reset').on('click', function(){
 });
 
 $('#single').on('click', function(){
-  tic.singlePlayer = true;
-  $(this).css("color", "rgb(215, 214, 218)");
   $('.board > div').html('');
   clear();
+  if (tic.singlePlayer === false){
+    tic.singlePlayer = true;
+    $(this).css("color", "rgb(215, 214, 218)");
+  } else {
+    tic.singlePlayer = false;
+    $(this).css("color", "rgb(85, 85, 85)");
+  };
 
 });
 
