@@ -98,10 +98,8 @@ const tic = {
   randomMove: function(){
     //Create an array of empty boxes
     const possibleMoves = this.boxNumber.filter(x => typeof(x) === 'number');
-    //Pick a
+    //From the new array (which contains indices without X or O), pick a an empty spot
     const randomIndex = Math.floor(Math.random()*(possibleMoves.length));
-      console.log(randomIndex);
-      console.log(possibleMoves[randomIndex]);
       return possibleMoves[randomIndex];
   },
   singlePlayer: false,
@@ -125,7 +123,8 @@ const clear = function(){
   countPlays = 0;
   gameIsWon = false;
   computerTurn = false;
-  // setting tic.lastPlayed maybe problematic for the 2 player version.
+
+  // for the singlePlayer mode let player X start again
   if (tic.singlePlayer === true){
     tic.lastPlayed = 'O';
   };
@@ -134,7 +133,6 @@ const clear = function(){
 
 
 };
-
 
 
 
@@ -173,7 +171,7 @@ $('.quarter.size').on('click', function(){
 
 
 
-
+// clears board so that you can play again
 $('#reset').on('click', function(){
 
   // clear x and o from board
@@ -183,6 +181,21 @@ $('#reset').on('click', function(){
 
 });
 
+
+// clears score and resets back to 0:0
+$('#clearScore').on('click', function(){
+  //resets object back to 0
+  tic.oScore = 0;
+  tic.xScore = 0;
+  // displays 0 from object on UI
+  $('#xScore').html(`${tic.xScore}`);
+  $('#oScore').html(`${tic.oScore}`);
+
+});
+
+// toggles between single player mode and 2 player Mode
+// 2 player mode is the default
+// also clears boards (reset button)
 $('#single').on('click', function(){
   $('.board > div').html('');
   clear();
@@ -222,12 +235,11 @@ const draw = function(){
 
 
 
+// $('.board > div').on('click', function(){
+// this allows you to click anywhere on the board
+// and to return the index depending where you click
+$(document).on('click', '.board > div', function(){
 
-  $(document).on('click', '.board > div', function(){
-
-    // $('.board > div').on('click', function(){
-    // this allows you to click anywhere on the board
-    // and to return the index depending where you click
 
     // disables the rest of code if player has won or if waiting for the comp to take a turn
     if (gameIsWon || computerTurn ) {
@@ -237,8 +249,6 @@ const draw = function(){
     // let boxNum = $(e.target).attr('index');
     // this refers to the box you clicked on in $('.board > div')
     let boxNum = $(this).attr('index');
-
-    console.log(boxNum);
 
 
     // if spot is empty then run code below
@@ -261,7 +271,6 @@ const draw = function(){
       if (countPlays === (tic.numCols)**2) {
         draw();
       }
-      // also need to display draw no one wins - needs counter
 
       if (tic.win()){
         youWin(play);
@@ -308,59 +317,3 @@ const draw = function(){
 // before running the handler function (only if it matches)
 // $(document).on('click', '.board > div', function(){
 //
-//   // $('.board > div').on('click', function(){
-//   // this allows you to click anywhere on the board
-//   // and to return the index depending where you click
-//
-//   // disables the rest of code after a player wins by exiting function
-//   if (gameIsWon) {
-//     return
-//   }
-//
-//   // let boxNum = $(e.target).attr('index');
-//   // this refers to the box you clicked on in $('.board > div')
-//   let boxNum = $(this).attr('index');
-//
-//   console.log(boxNum);
-//   // console.log($(this).html());
-//
-//
-//   // if spot is empty then run code below
-//   if ($(this).html().length === 0 ) {
-//
-//     // find out if its X or O
-//     const play = tic.nextPlay();
-//
-//     // insert X or O into box clicked
-//     $(this).html(play);
-//
-//     // updated lastPlayed value, turn index(string) into a number
-//     tic.boxNumber[parseInt(boxNum)] = play; //
-//
-//     // updated lastPlayed value, turn index(string) into a number
-//     tic.lastPlayed = play;
-//
-//     countPlays += 1;
-//
-//     // also need to display draw no one wins - needs counter
-//     if (countPlays === (tic.numCols)**2) {
-//       $('.outcome').html('Draw game!').show();
-//     }
-//     // also need to display draw no one wins - needs counter
-//
-//     if (tic.win()){
-//       $('.outcome').html(`Player ${play} you win!`);
-//       $('.outcome, .outcomeBackground').show();
-//       gameIsWon = true;
-//       if (play === 'X'){
-//         tic.xScore += 1;
-//       } else {
-//         tic.oScore += 1;
-//       }
-//       $('#xScore').html(`${tic.xScore}`);
-//       $('#oScore').html(`${tic.oScore}`);
-//     }
-//
-//   }
-//
-// }); //end of event handler for clicks

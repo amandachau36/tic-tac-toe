@@ -59,12 +59,12 @@ h1 {
 
 }
 
-#reset, #single{
+#reset, #single, #clearScore{
   color: rgb(215, 214, 218);
   background: transparent;
   font-family: 'Permanent Marker', cursive;
   border-radius: 10px;
-  font-size: 2.5vw;
+  font-size: 2vw;
   outline: none;
   width: 25vw;
 
