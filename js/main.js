@@ -100,7 +100,7 @@ const tic = {
     const possibleMoves = this.boxNumber.filter(x => typeof(x) === 'number');
     //From the new array (which contains indices without X or O), pick a an empty spot
     const randomIndex = Math.floor(Math.random()*(possibleMoves.length));
-      return possibleMoves[randomIndex];
+    return possibleMoves[randomIndex];
   },
   singlePlayer: false,
 
@@ -286,7 +286,7 @@ $(document).on('click', '.board > div', function(){
         youWin(play);
       }
 
-      if (tic.singlePlayer === true) {
+      if (tic.singlePlayer) {
       // disable clicks until computer plays
         computerTurn = true;
 
@@ -313,6 +313,7 @@ $(document).on('click', '.board > div', function(){
               }
               computerTurn = false;
               displayTurn();
+
           }, 800);
         }
       }
