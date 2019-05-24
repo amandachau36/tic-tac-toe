@@ -187,6 +187,7 @@ $('#single').on('click', function(){
   $(this).css("color", "rgb(215, 214, 218)");
   $('.board > div').html('');
   clear();
+
 });
 
 
