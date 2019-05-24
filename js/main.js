@@ -114,6 +114,10 @@ let gameIsWon = false;
 let computerTurn = false;
 
 
+const displayTurn = function(){
+  $('#displayTurn').html(`${tic.nextPlay()}`);
+};
+
 const clear = function(){
 
 //hides winner/draw banner
@@ -130,6 +134,8 @@ const clear = function(){
   };
 // generates boxNumber array with numbers again
   tic.createBoxNumber();
+
+  displayTurn();
 
 
 };
@@ -201,6 +207,7 @@ $('#single').on('click', function(){
   clear();
   if (tic.singlePlayer === false){
     tic.singlePlayer = true;
+    tic.lastPlayed = 'O';
     $(this).css("color", "rgb(215, 214, 218)");
   } else {
     tic.singlePlayer = false;
@@ -257,6 +264,8 @@ $(document).on('click', '.board > div', function(){
       // find out if its X or O
       let play = tic.nextPlay();
 
+
+
       // insert X or O into box clicked
       $(this).html(play);
 
@@ -267,6 +276,7 @@ $(document).on('click', '.board > div', function(){
       tic.lastPlayed = play;
 
       countPlays += 1;
+      displayTurn();
 
       if (countPlays === (tic.numCols)**2) {
         draw();
@@ -274,7 +284,6 @@ $(document).on('click', '.board > div', function(){
 
       if (tic.win()){
         youWin(play);
-
       }
 
       if (tic.singlePlayer === true) {
@@ -303,6 +312,7 @@ $(document).on('click', '.board > div', function(){
                 draw();
               }
               computerTurn = false;
+              displayTurn();
           }, 800);
         }
       }

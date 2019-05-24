@@ -53,6 +53,12 @@ h1 {
   /* background-color: red; */
 }
 
+#displayTurn{
+  display: inline-block;
+  color: rgb(223, 237, 136);
+
+}
+
 .button{
   display: inline-block;
   margin: 2.5%;
@@ -78,8 +84,8 @@ h1 {
   width: 100%;
   /* background-color: pink; */
   font-size: 2.5vw;
-  padding-top: 8%;
-  padding-bottom: 8%;
+  padding-top: 3%;
+  padding-bottom: 3%;
   /* display: inline-block; */
 }
 
