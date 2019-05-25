@@ -22,15 +22,14 @@ const tic = {
   },
   oScore: 0,
   xScore: 0,
-  isMatch: function(line){
+  isMatch: function(line, player){
     // Checks if every item in the arrays below are ALL the same
-    if (line.every(x => x === 'X') || line.every(x => x === 'O')) {
+    if (line.every(x => x === player)) {
       return true;
     }
-    // return line.every(x => x === player); //|| line.every(x => x === 'O');
 
   },
-  win: function(){
+  win: function(player){
     // this creates arrays for each possible winning line (rows,
     // columns, diagonals x 2)
     // Then the isMatch() is used to determine if all values within each
@@ -44,7 +43,7 @@ const tic = {
       diagonal1.push(this.boxNumber[j]);
     };
 
-    if( this.isMatch(diagonal1) ){
+    if( this.isMatch(diagonal1, player) ){
       return true;
     };   // end of diagonal1
 
@@ -55,7 +54,7 @@ const tic = {
       diagonal2.push(this.boxNumber[j]);
     };
 
-    if( this.isMatch(diagonal2) ){
+    if( this.isMatch(diagonal2, player) ){
       return true;
     }; // end of diagonal2
 
@@ -71,7 +70,7 @@ const tic = {
     };
 
     for (let i = 0; i < cols.length; i++) {
-      if( this.isMatch(cols[i]) ){
+      if( this.isMatch(cols[i], player) ){
         return true;
       }
     }; // end of columns
@@ -88,7 +87,7 @@ const tic = {
     };
 
     for(let i = 0; i < rows.length; i++){
-      if( this.isMatch(rows[i]) ){
+      if( this.isMatch(rows[i], player) ){
         return true;
       }
     }; // end of rows
@@ -103,15 +102,19 @@ const tic = {
     return possibleMoves[randomIndex];
   },
   singlePlayer: false,
+  countPlays: 0,
+  updateTic: function(play){
+    tic.lastPlayed = play;
+    tic.countPlays += 1;
+  },
+  gameIsWon: false,
+  computerTurn: false,
 
 
 };// end to tic object
 
 //end of game logic
 
-let countPlays = 0;
-let gameIsWon = false;
-let computerTurn = false;
 
 
 const displayTurn = function(){
@@ -124,9 +127,9 @@ const clear = function(){
     $('.outcome').hide();
 
 //reset to initial conditions
-  countPlays = 0;
-  gameIsWon = false;
-  computerTurn = false;
+  tic.countPlays = 0;
+  tic.gameIsWon = false;
+  tic.computerTurn = false;
 
   // for the singlePlayer mode let player X start again
   if (tic.singlePlayer === true){
@@ -221,7 +224,7 @@ $('#single').on('click', function(){
 const youWin = function(play){
   $('.outcome').html(`Player ${play} wins!`);
   $('.outcome, .outcomeBackground').show();
-  gameIsWon = true;
+  tic.gameIsWon = true;
   if (play === 'X'){
     tic.xScore += 1;
   } else {
@@ -242,6 +245,11 @@ const draw = function(){
 
 
 
+
+
+
+
+
 // $('.board > div').on('click', function(){
 // this allows you to click anywhere on the board
 // and to return the index depending where you click
@@ -249,7 +257,7 @@ $(document).on('click', '.board > div', function(){
 
 
     // disables the rest of code if player has won or if waiting for the comp to take a turn
-    if (gameIsWon || computerTurn ) {
+    if (tic.gameIsWon || tic.computerTurn ) {
       return;
     }
 
@@ -273,24 +281,25 @@ $(document).on('click', '.board > div', function(){
       tic.boxNumber[parseInt(boxNum)] = play; //
 
       // updated lastPlayed value, turn index(string) into a number
-      tic.lastPlayed = play;
 
-      countPlays += 1;
+      tic.updateTic(play);
+
+
       displayTurn();
 
-      if (countPlays === (tic.numCols)**2) {
+      if (tic.countPlays === (tic.numCols)**2) {
         draw();
       }
 
-      if (tic.win()){
+      if (tic.win(play)){
         youWin(play);
       }
 
       if (tic.singlePlayer) {
       // disable clicks until computer plays
-        computerTurn = true;
+        tic.computerTurn = true;
 
-        if (gameIsWon === false){
+        if (tic.gameIsWon === false){
           window.setTimeout(function(){
 
               play = tic.nextPlay();
@@ -303,18 +312,19 @@ $(document).on('click', '.board > div', function(){
 
               //update tic object
               tic.boxNumber[computerMove] = play;
-              tic.lastPlayed = play;
-              countPlays += 1;
-              if (tic.win()){
+
+              tic.updateTic(play);
+
+              if (tic.win(play)){
                 youWin(play);
               }
-              if (countPlays === (tic.numCols)**2) {
+              if (tic.countPlays === (tic.numCols)**2) {
                 draw();
               }
-              computerTurn = false;
+              tic.computerTurn = false;
               displayTurn();
 
-          }, 800);
+          }, 900);
         }
       }
     }
