@@ -101,20 +101,108 @@ const tic = {
     const randomIndex = Math.floor(Math.random()*(possibleMoves.length));
     return possibleMoves[randomIndex];
   },
+  arrayOfBetterMoves: [],
+  oneMoreToWin: function(line, lastPlayed){
+    let arrayOfOne = line.filter(x => typeof(x) === 'number');
+    // console.log(arrayOfOne);
+    if (arrayOfOne.length > 0) {
+      this.arrayOfBetterMoves.push(arrayOfOne[0]);
+      // console.log(tic.arrayOfBetterMoves);
+    }
+  },
+  findBetterMoves: function(lastPlayed){
+    let x = this.numCols;
+    this.arrayOfBetterMoves = [];
+
+    let diagonal1 = [];
+    for ( let j = 0; j < this.boxNumber.length; j+=(x+1) ) {
+      diagonal1.push(this.boxNumber[j]);
+    };
+
+
+    if(diagonal1.filter(x => x === this.lastPlayed).length === (x - 1) ){
+      this.oneMoreToWin(diagonal1, this.lastPlayed);
+    };   // end of diagonal1
+
+
+    let diagonal2 = [];
+
+    for ( let j = (x-1); j < this.boxNumber.length-1; j+=(x-1) ) {
+      diagonal2.push(this.boxNumber[j]);
+    };
+
+    if( diagonal2.filter(x => x === this.lastPlayed).length === (x - 1) ){
+      this.oneMoreToWin(diagonal2, this.lastPlayed);
+    }; // end of diagonal2
+
+
+    let cols = [];
+
+    for(let j = 0; j < x; j++){
+    // creates an array within cols (i.e. cols will be an array of arrays)
+      cols[j] = [];
+      for ( let i = j; i < this.boxNumber.length; i+=x ) {
+        cols[j].push(this.boxNumber[i]);
+      }
+    };
+
+    for (let i = 0; i < cols.length; i++) {
+      if( cols[i].filter(x => x === this.lastPlayed).length === (x - 1) ) {
+        this.oneMoreToWin(cols[i], this.lastPlayed);
+      }
+    }; // end of columns
+
+    let rows = [];
+
+    for(let j = 0, k = 0; j < this.boxNumber.length; j+=x, k++){
+      //k is only the number for arrays, this removes empty arrays problem when using row[j]
+      rows[k] = [];
+      for ( let i = j; i < (j+x); i++ ) {
+        rows[k].push(this.boxNumber[i]);
+      }
+    };
+
+    for(let i = 0; i < rows.length; i++){
+      if( rows[i].filter(x => x === this.lastPlayed).length === (x - 1) ) {
+        this.oneMoreToWin(rows[i], this.lastPlayed);
+      }
+    }; // end of rows
+
+    const randomIndex = Math.floor(Math.random()*(this.arrayOfBetterMoves.length));
+    return this.arrayOfBetterMoves[randomIndex];
+
+  },
   singlePlayer: false,
   countPlays: 0,
   updateTic: function(play){
-    tic.lastPlayed = play;
-    tic.countPlays += 1;
+    this.lastPlayed = play;
+    this.countPlays += 1;
   },
   gameIsWon: false,
   computerTurn: false,
+
 
 
 };// end to tic object
 
 //end of game logic
 
+
+// const testArray = ['O', 1, 'O']
+//
+// let arrayOfBetterMoves = [],
+
+// let arrayOfOne = line.filter(x => typeof(x) === lastPlayed);
+
+// if testArray.filter(x => x === 'O').length === (numCols - 1) {
+//   let arrayOfOne = testArray.filter(x => typeof(x) === 'number')
+// }
+//
+// arrayOfBetterMoves.push(arrayOfOne[0])
+//
+// computerMove = random pick arrayOfBetterMoves
+//
+// //
 
 
 const displayTurn = function(){
@@ -304,14 +392,23 @@ $(document).on('click', '.board > div', function(){
 
               play = tic.nextPlay();
 
+              const computerMoveBetter = tic.findBetterMoves();
+
+              if (tic.arrayOfBetterMoves.length > 0) {
+                $(`.box${computerMoveBetter}`).html(play);
+                tic.boxNumber[computerMoveBetter] = play;
+              } else {
+                const computerMove = tic.randomMove();
+
+                // put computer's play on screen
+                $(`.box${computerMove}`).html(play);
+
+                //update tic object
+                tic.boxNumber[computerMove] = play;
+              }
+
               // save random available index
-              const computerMove = tic.randomMove();
 
-              // put computer's play on screen
-              $(`.box${computerMove}`).html(play);
-
-              //update tic object
-              tic.boxNumber[computerMove] = play;
 
               tic.updateTic(play);
 
@@ -329,6 +426,9 @@ $(document).on('click', '.board > div', function(){
       }
     }
 });
+
+
+
 
 
 
