@@ -9,7 +9,7 @@
 **Goal:** To build a web application from scratch, without a starter codebase
 
 
-!(gameImage)(https://github.com/amandachau36/tic-tac-toe/blob/master/images/screenShot)
+!(https://github.com/amandachau36/tic-tac-toe/blob/master/images/screenShot)
 
 **Main Features**
 *  Three board sizes
