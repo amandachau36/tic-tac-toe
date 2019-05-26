@@ -188,21 +188,7 @@ const tic = {
 //end of game logic
 
 
-// const testArray = ['O', 1, 'O']
-//
-// let arrayOfBetterMoves = [],
 
-// let arrayOfOne = line.filter(x => typeof(x) === lastPlayed);
-
-// if testArray.filter(x => x === 'O').length === (numCols - 1) {
-//   let arrayOfOne = testArray.filter(x => typeof(x) === 'number')
-// }
-//
-// arrayOfBetterMoves.push(arrayOfOne[0])
-//
-// computerMove = random pick arrayOfBetterMoves
-//
-// //
 
 
 const displayTurn = function(){
@@ -375,13 +361,13 @@ $(document).on('click', '.board > div', function(){
 
       displayTurn();
 
-      if (tic.countPlays === (tic.numCols)**2) {
+      if (tic.win(play)){
+        youWin(play);
+      } else if (tic.countPlays === (tic.numCols)**2) {
         draw();
       }
 
-      if (tic.win(play)){
-        youWin(play);
-      }
+
 
       if (tic.singlePlayer) {
       // disable clicks until computer plays
@@ -414,10 +400,10 @@ $(document).on('click', '.board > div', function(){
 
               if (tic.win(play)){
                 youWin(play);
-              }
-              if (tic.countPlays === (tic.numCols)**2) {
+              } else if (tic.countPlays === (tic.numCols)**2) {
                 draw();
               }
+
               tic.computerTurn = false;
               displayTurn();
 
