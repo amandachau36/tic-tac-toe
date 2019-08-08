@@ -114,7 +114,13 @@ h1 {
   overflow: hidden;
 }
 
-.outcomeBackground{
+.board > div:hover {
+  background-color: rgba(57, 57, 57, 0.8);
+
+}
+
+.outcome{
+  display: block;
   background: radial-gradient(rgba(0, 0, 0, 1),rgba(0, 0, 0, 0.6));
   width: 46vw;
   height: auto;
@@ -122,13 +128,9 @@ h1 {
   border-radius: 10px;
   position: relative;
   top: -28vw;
-
-}
-
-.outcome {
-  background: transparent;
   font-size: 5vw;
   width: 46vw;
-  color:rgb(223, 140, 244);
+  /* color:rgb(223, 140, 244); */
+  color: rgb(246, 54, 159);
   text-align: center;
 }

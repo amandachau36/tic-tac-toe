@@ -8,12 +8,13 @@
 
 **Goal:** To build a web application from scratch, without a starter codebase
 
+<img alt="tic-tac-toe game image" src="img/tictactoe.png" width="500px">
 
-!(img/screenshot.png)
+
 
 **Main Features**
 *  Three board sizes
-  * However, JS and CSS logic enables allows for any square board size
+* However, JS and CSS logic enables allows for any square board size
 * Notifies winner/draw games  
 * Reset board and play again!
 * Tracks score

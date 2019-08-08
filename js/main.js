@@ -1,4 +1,4 @@
-console.log('JS is working!')
+
 
 const tic = {
   boxNumber: [],
@@ -301,11 +301,13 @@ const youWin = function(play){
   tic.gameIsWon = true;
   if (play === 'X'){
     tic.xScore += 1;
+    $('#xScore').html(`${tic.xScore}`);
   } else {
     tic.oScore += 1;
+    $('#oScore').html(`${tic.oScore}`);
   };
-  $('#xScore').html(`${tic.xScore}`);
-  $('#oScore').html(`${tic.oScore}`);
+
+
 
 };
 
